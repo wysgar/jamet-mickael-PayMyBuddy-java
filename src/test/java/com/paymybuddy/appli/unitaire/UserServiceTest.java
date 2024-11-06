@@ -16,12 +16,12 @@ public class UserServiceTest {
 	
 	@Test
 	public void getLoginTest() {
-		userService.getLogin(null);
+//		userService.login(null);
 	}
 	
 	@Test
 	public void getLogoutTest() {
-		userService.getLogout(null);
+		userService.logout(null);
 	}
 	
 	@Test

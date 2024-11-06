@@ -23,17 +23,17 @@ public class Transaction {
 	private String description;
 	
 	@Column(name = "AMOUNT")
-	private int amount;
+	private float amount;
 	
 	@ManyToOne(cascade = CascadeType.ALL,
 			   fetch = FetchType.EAGER)
 	@JoinColumn(name = "SENDER_ID")
-	private User sender;
+	private DBUser sender;
 	
 	@ManyToOne(cascade = CascadeType.ALL,
 			   fetch = FetchType.EAGER)
 	@JoinColumn(name = "RECEIVER_ID")
-	private User receiver;
+	private DBUser receiver;
 
 	public int getTransactionId() {
 		return transactionId;
@@ -51,7 +51,7 @@ public class Transaction {
 		this.description = description;
 	}
 
-	public int getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
@@ -59,19 +59,19 @@ public class Transaction {
 		this.amount = amount;
 	}
 	
-	public User getSenderId() {
+	public DBUser getSenderId() {
 		return sender;
 	}
 
-	public void setSenderId(User sender) {
+	public void setSenderId(DBUser sender) {
 		this.sender = sender;
 	}
 
-	public User getReceiverId() {
+	public DBUser getReceiverId() {
 		return receiver;
 	}
 
-	public void setReceiverId(User receiver) {
+	public void setReceiverId(DBUser receiver) {
 		this.receiver = receiver;
 	}
 }
