@@ -2,15 +2,15 @@ package com.paymybuddy.appli.model.DTO;
 
 public class TransactionDTO {
 
-	private String username;
+	private int id;
 	private String description;
 	private int montant;
 	
-	public String getUsername() {
-		return username;
+	public int getId() {
+		return id;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getDescription() {
 		return description;
@@ -24,6 +24,5 @@ public class TransactionDTO {
 	public void setMontant(int montant) {
 		this.montant = montant;
 	}
-	
 	
 }

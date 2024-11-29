@@ -28,6 +28,7 @@ public class SpringSecurityConfig {
 		.formLogin(form -> form
 				.loginPage("/login")
 				.usernameParameter("email")
+                .defaultSuccessUrl("/profil", true)
 				.permitAll())
 		.logout((logout) -> logout.permitAll());
 		

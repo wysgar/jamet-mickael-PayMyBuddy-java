@@ -31,9 +31,9 @@ public class TransactionControllerTest {
 	@Test
 	public void postTransactionTest() throws JsonProcessingException, Exception {
 		TransactionDTO transactionDTO = new TransactionDTO();
-		transactionDTO.setUsername(null);
-		transactionDTO.setDescription(null);
-		transactionDTO.setMontant(0);
+//		transactionDTO.setUsername(null);
+//		transactionDTO.setDescription(null);
+//		transactionDTO.setMontant(0);
 		
 		mockMvc.perform(post("/transaction").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(transactionDTO))).andExpect(status().isOk());
 	}

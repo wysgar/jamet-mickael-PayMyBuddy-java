@@ -55,23 +55,23 @@ public class Transaction {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	
-	public DBUser getSenderId() {
+
+	public DBUser getSender() {
 		return sender;
 	}
 
-	public void setSenderId(DBUser sender) {
+	public void setSender(DBUser sender) {
 		this.sender = sender;
 	}
 
-	public DBUser getReceiverId() {
+	public DBUser getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiverId(DBUser receiver) {
+	public void setReceiver(DBUser receiver) {
 		this.receiver = receiver;
 	}
 }

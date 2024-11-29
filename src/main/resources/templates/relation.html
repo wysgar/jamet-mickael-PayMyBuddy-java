@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pay My Buddy</title>
+</head>
+<body>
+	<header th:insert="~{navbar :: navbar}"></header>
+	<div>
+		<div>Chercher une relation</div>
+		<form th:action="@{/relation}" method="post">
+			<input type="email" name="email" placeholder="Saisir une adresse mail" required>
+			<button type="submit" class="btn">Ajouter</button>
+		</form>
+	</div>
+</body>
+</html>
