@@ -31,7 +31,6 @@ import com.paymybuddy.appli.model.DBUser;
 import com.paymybuddy.appli.repository.UserRepository;
 import com.paymybuddy.appli.service.UserService;
 
-//@Import({ConfigTest.class})
 @SpringBootTest
 public class UserServiceTest {
 	
@@ -50,8 +49,6 @@ public class UserServiceTest {
 		user.setEmail("dbuser2@gmail.com");
 		user.setUsername("dbuser2");
 		user.setPassword("dbuser2");
-		
-		//users.add(user);
 	}
     
     @Test
@@ -241,4 +238,87 @@ public class UserServiceTest {
 
         assertNull(result);
     }
+    
+    @Test
+    void createRelation_ShouldCreateRelation_WhenValid() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("user@example.com");
+
+        DBUser user = new DBUser();
+        user.setEmail("user@example.com");
+
+        DBUser relation = new DBUser();
+        relation.setEmail("relation@example.com");
+
+        when(userRepository.findByEmail("user@example.com")).thenReturn(user);
+        when(userRepository.findByEmail("relation@example.com")).thenReturn(relation);
+        when(userRepository.save(user)).thenReturn(user);
+
+        DBUser result = userService.createRelation(userDetails, "relation@example.com");
+
+        assertTrue(result.getConnections().contains(relation));
+        verify(userRepository).save(user);
+    }
+
+    @Test
+    void createRelation_ShouldThrowException_WhenRelationNotFound() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("user@example.com");
+
+        DBUser user = new DBUser();
+        user.setEmail("user@example.com");
+
+        when(userRepository.findByEmail("user@example.com")).thenReturn(user);
+        when(userRepository.findByEmail("nonexistent@example.com")).thenReturn(null);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createRelation(userDetails, "nonexistent@example.com");
+        });
+
+        assertEquals("Relation not found.", exception.getMessage());
+        verify(userRepository, never()).save(user);
+    }
+
+    @Test
+    void createRelation_ShouldThrowException_WhenRelationWithSelf() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("user@example.com");
+
+        DBUser user = new DBUser();
+        user.setEmail("user@example.com");
+
+        when(userRepository.findByEmail("user@example.com")).thenReturn(user);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createRelation(userDetails, "user@example.com");
+        });
+
+        assertEquals("Relation with self.", exception.getMessage());
+        verify(userRepository, never()).save(user);
+    }
+
+    @Test
+    void createRelation_ShouldThrowException_WhenRelationAlreadyExists() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("user@example.com");
+
+        DBUser user = new DBUser();
+        user.setEmail("user@example.com");
+
+        DBUser relation = new DBUser();
+        relation.setEmail("relation@example.com");
+
+        when(userRepository.findByEmail("user@example.com")).thenReturn(user);
+        when(userRepository.findByEmail("relation@example.com")).thenReturn(relation);
+
+        user.getConnections().add(relation);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.createRelation(userDetails, "relation@example.com");
+        });
+
+        assertEquals("This connection already exists.", exception.getMessage());
+        verify(userRepository, never()).save(user);
+    }
+
 }

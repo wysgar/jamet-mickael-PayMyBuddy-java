@@ -1,7 +1,6 @@
 package com.paymybuddy.appli.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.paymybuddy.appli.model.DBUser;
 import com.paymybuddy.appli.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -59,31 +60,26 @@ public class UserService implements UserDetailsService {
 	public DBUser getProfil(String email) {
 		return userRepository.findByEmail(email);
 	}
-
-	public DBUser createRelation(UserDetails userDetails, String email) {
-		DBUser user = getProfil(userDetails.getUsername());
-		DBUser relation = getProfil(email);
-		List<DBUser> relations = user.getConnections();
-		
-		boolean alreadyConnected = user.getConnections().stream()
-                .anyMatch(connection -> connection == relation);
-
-        if (alreadyConnected) {
-            throw new RuntimeException("Cette connexion existe déjà.");
-        }
-		
-		if (relation != null) {
-			if (user != relation) {
-				relations.add(relation);
-				System.out.println(relations);
-				user.setConnections(relations);
-			}
-		}
-		
-		return userRepository.save(user);
-	}
 	
-//	public boolean logout(String email) {
-//		return false;
-//	}
+	@Transactional
+	public DBUser createRelation(UserDetails userDetails, String email) {
+	    DBUser user = getProfil(userDetails.getUsername());
+	    DBUser relation = getProfil(email);
+
+	    if (relation == null) {
+	        throw new IllegalArgumentException("Relation not found.");
+	    }
+	    
+	    if (relation == user) {
+	        throw new IllegalArgumentException("Relation with self.");
+	    }
+
+	    if (user.getConnections().contains(relation)) {
+	        throw new IllegalArgumentException("This connection already exists.");
+	    }
+
+	    user.getConnections().add(relation);
+
+	    return userRepository.save(user);
+	}
 }

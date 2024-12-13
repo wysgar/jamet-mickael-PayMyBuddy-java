@@ -32,9 +32,9 @@ public class TransactionController {
 	}
 	
 	@PostMapping("/transaction")
-	public String postTransaction(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute TransactionDTO transactionDTO, Model model) {
+	public String postTransaction(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute TransactionDTO transactionDTO) {
 		transactionService.addTransaction(userDetails, transactionDTO);
 		
-		return getTransaction(userDetails, model);
+		return "redirect:/transaction";
 	}
 }

@@ -1,5 +1,6 @@
 package com.paymybuddy.appli.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -8,8 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -38,16 +39,24 @@ public class DBUser {
     @OneToMany(mappedBy = "receiver")
     private List<Transaction> receivedTransactions;
 	
-	@ManyToOne
-	@JoinTable(
-	        name = "USER_CONNECTIONS",
-	        joinColumns = @JoinColumn(name = "USER_TO"),
-	        inverseJoinColumns = @JoinColumn(name = "USER_ID")
-	)
-	private DBUser user;
-	
-	@OneToMany(mappedBy = "user")
-	private List<DBUser> connections;
+//	@ManyToOne
+//	@JoinTable(
+//	        name = "USER_CONNECTIONS",
+//	        joinColumns = @JoinColumn(name = "USER_TO"),
+//	        inverseJoinColumns = @JoinColumn(name = "USER_ID")
+//	)
+//	private DBUser user;
+//	
+//	@OneToMany(mappedBy = "user")
+//	private List<DBUser> connections;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "USER_CONNECTIONS",
+        joinColumns = @JoinColumn(name = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "USER_TO")
+    )
+    private List<DBUser> connections = new ArrayList<>();
 
 	public int getUserId() {
 		return userId;
@@ -97,13 +106,13 @@ public class DBUser {
 		this.receivedTransactions = receivedTransactions;
 	}
 
-	public DBUser getUser() {
-		return user;
-	}
-
-	public void setUser(DBUser user) {
-		this.user = user;
-	}
+//	public DBUser getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(DBUser user) {
+//		this.user = user;
+//	}
 
 	public List<DBUser> getConnections() {
 		return connections;

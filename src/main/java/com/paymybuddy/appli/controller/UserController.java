@@ -3,8 +3,11 @@ package com.paymybuddy.appli.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.paymybuddy.appli.model.DBUser;
 import com.paymybuddy.appli.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
@@ -47,14 +53,8 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public String postLogin() {
-		return "profil.html";
+		return "redirect:/profil";
 	}
-	
-//	@GetMapping("/logout")
-//	public boolean getLogout(@RequestParam String email) {
-//		return userService.logout(email);
-//		
-//	}
 	
 	@GetMapping("/profil")
 	public String getProfil(@AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -81,4 +81,12 @@ public class UserController {
 		return userService.createRelation(userDetails, email);
 	}
 	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null) {
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    return "redirect:/login";
+	}
 }

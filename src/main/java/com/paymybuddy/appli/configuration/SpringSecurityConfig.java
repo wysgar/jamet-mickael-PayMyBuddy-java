@@ -30,7 +30,9 @@ public class SpringSecurityConfig {
 				.usernameParameter("email")
                 .defaultSuccessUrl("/profil", true)
 				.permitAll())
-		.logout((logout) -> logout.permitAll());
+		.logout((logout) -> 
+				logout.permitAll()
+				.logoutSuccessUrl("/login"));
 		
 		return http.build();
 	}

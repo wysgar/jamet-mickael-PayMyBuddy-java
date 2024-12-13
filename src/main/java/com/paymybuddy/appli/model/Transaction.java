@@ -23,7 +23,7 @@ public class Transaction {
 	private String description;
 	
 	@Column(name = "AMOUNT")
-	private float amount;
+	private double amount;
 	
 	@ManyToOne(cascade = CascadeType.ALL,
 			   fetch = FetchType.EAGER)
@@ -51,11 +51,11 @@ public class Transaction {
 		this.description = description;
 	}
 
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(float amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

@@ -4,7 +4,7 @@ public class TransactionDTO {
 
 	private int id;
 	private String description;
-	private int montant;
+	private double montant;
 	
 	public int getId() {
 		return id;
@@ -18,11 +18,11 @@ public class TransactionDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getMontant() {
+	public double getMontant() {
 		return montant;
 	}
-	public void setMontant(int montant) {
-		this.montant = montant;
+	public void setMontant(double d) {
+		this.montant = d;
 	}
 	
 }
