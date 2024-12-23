@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Pay My Buddy</title>
+	<link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 	<header th:insert="~{navbar :: navbar}"></header>
-	<div>
-		<div>Chercher une relation</div>
+	<div class="add-form">
+		<div class="bold">Chercher une relation</div>
 		<form th:action="@{/relation}" method="post">
-			<input type="email" name="email" placeholder="Saisir une adresse mail" required>
-			<button type="submit" class="btn">Ajouter</button>
+			<input type="email" class="input_relation" name="email" placeholder="Saisir une adresse mail" required>
+			<button type="submit" class="btn_relation">Ajouter</button>
 		</form>
+		<label class="error" th:object="${error}" th:text="${error}"></label>
 	</div>
 </body>
 </html>

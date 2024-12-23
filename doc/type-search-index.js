@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.paymybuddy.appli.model.DTO","l":"TransactionDTO"}];updateSearchResults();

@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay My Buddy</title>
-    <link rel="stylesheet" th:href="@{/transaction.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 	<header th:insert="~{navbar :: navbar}"></header>
 	
     <main>
         <section>
-            <form method="post" th:object="${transactionDTO}" th:action="@{/transaction}">
+            <form method="post" class="form_transaction" th:object="${transactionDTO}" th:action="@{/transaction}">
                 <div>
-                    <label for="relation">Sélectionner une relation</label>
                     <select id="relation" name="relation" th:field="*{id}" required>
                         <option value="0" disabled selected>Sélectionner une relation</option>
                         <option th:each="relation : ${relations}" th:value="${relation.userId}" th:text="${relation.username}"></option>
@@ -21,22 +20,22 @@
                 </div>
                 
                 <div>
-                    <label for="description">Description</label>
                     <input type="text" th:field="*{description}" id="description" name="description" placeholder="Description" required>
                 </div>
                 
                 <div>
-                    <label for="amount">Montant</label>
                     <input type="number" th:field="*{montant}" id="amount" name="amount" min="0" step="0.01" placeholder="0€" required>
                 </div>
                 
+				<label class="error" th:object="${error}" th:text="${error}"></label>
+				
                 <button type="submit">Payer</button>
             </form>
         </section>
         
         <section>
             <h2>Mes Transactions</h2>
-            <table>
+            <table class="table_transaction">
                 <thead>
                     <tr>
                         <th>Relations</th>

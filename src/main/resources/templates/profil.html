@@ -1,51 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay My Buddy</title>
-	<style>
-        .profil-info {
-			display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            width: 300px;
-            margin-bottom: 20px;
-        }
-        .profil-info div {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-        }
-        button {
-            background-color: #ffa500;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-		input {
-	        color: #333;
-	        width: 100%;
-	        padding: 5px;
-	        outline: none;
-	    }
-
-	    input.readonly {
-	        border: none;
-	        background: none;
-	        pointer-events: none;
-	        color: #333;
-	    }
-
-	    input:not(.readonly) {
-	        border: 1px solid #ccc;
-	        background: #fff;
-	        padding: 8px;
-	        border-radius: 4px;
-	    }
-    </style>
+    <link rel="stylesheet" th:href="@{/style.css}">
+	
 	<script>
 	    function toggleEditMode() {
 	        const inputs = document.querySelectorAll(".editable");
@@ -66,7 +26,6 @@
 	        document.getElementById("editBtn").style.display = isReadOnly ? "none" : "block";
 	    }
 	</script>
-
 </head>
 <body>
 	<header th:insert="~{navbar :: navbar}"></header>
@@ -74,25 +33,26 @@
 	<div class="profil-info">
 	    <form th:action="@{/profil}" th:object="${user}" method="post">
 	        <div class="profil-item">
-	            <label>Username</label>
+	            <label class="label">Username</label>
 	            <input type="text" th:field="*{username}" class="editable readonly" required readonly>
 	        </div>
 	            
 	        <div class="profil-item">
-	            <label>Mail</label>
+	            <label class="label">Mail</label>
 	            <input type="email" th:field="*{email}" class="editable readonly" required readonly>
 	        </div>
 	            
 	        <div class="profil-item">
-	            <label>Mot de passe</label>
+	            <label class="label">Mot de passe</label>
 	            <input type="password" th:field="*{password}" class="editable readonly" readonly>
 	        </div>
 	        
 	        <div>
-	            <button type="button" id="editBtn" onclick="toggleEditMode()">Modifier</button>
-	            <button type="submit" id="saveBtn" style="display: none;">Enregistrer</button>
+	            <button class="button" type="button" id="editBtn" onclick="toggleEditMode()">Modifier</button>
+	            <button class="button" type="submit" id="saveBtn" style="display: none;">Enregistrer</button>
 	        </div>
 	    </form>
+		<label class="error" th:object="${error}" th:text="${error}"></label>
 	</div>
 </body>
 </html>

@@ -14,6 +14,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Entity class representing a user in the system.
+ * <p>
+ * This class maps to the "USER" table in the database and contains attributes such as user ID, username, email, password,
+ * and relationships such as sent and received transactions, and user connections.
+ * </p>
+ */
 @Entity
 @Table(name = "USER")
 public class DBUser {
@@ -38,17 +45,6 @@ public class DBUser {
 
     @OneToMany(mappedBy = "receiver")
     private List<Transaction> receivedTransactions;
-	
-//	@ManyToOne
-//	@JoinTable(
-//	        name = "USER_CONNECTIONS",
-//	        joinColumns = @JoinColumn(name = "USER_TO"),
-//	        inverseJoinColumns = @JoinColumn(name = "USER_ID")
-//	)
-//	private DBUser user;
-//	
-//	@OneToMany(mappedBy = "user")
-//	private List<DBUser> connections;
     
     @ManyToMany
     @JoinTable(
@@ -105,14 +101,6 @@ public class DBUser {
 	public void setReceivedTransactions(List<Transaction> receivedTransactions) {
 		this.receivedTransactions = receivedTransactions;
 	}
-
-//	public DBUser getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(DBUser user) {
-//		this.user = user;
-//	}
 
 	public List<DBUser> getConnections() {
 		return connections;

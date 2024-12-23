@@ -1,5 +1,12 @@
 package com.paymybuddy.appli.model.DTO;
 
+/**
+ * Data Transfer Object (DTO) representing a transaction.
+ * <p>
+ * This class is used to transfer data related to a transaction, typically between the client and server.
+ * It contains information about the transaction's ID, description, and amount.
+ * </p>
+ */
 public class TransactionDTO {
 
 	private int id;
@@ -24,5 +31,4 @@ public class TransactionDTO {
 	public void setMontant(double d) {
 		this.montant = d;
 	}
-	
 }

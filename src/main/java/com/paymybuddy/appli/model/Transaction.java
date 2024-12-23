@@ -11,6 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entity class representing a transaction in the system.
+ * <p>
+ * This class maps to the "TRANSACTION" table in the database and contains attributes such as transaction ID, description, amount,
+ * and relationships to the sender and receiver users involved in the transaction.
+ * </p>
+ */
 @Entity
 @Table(name = "TRANSACTION")
 public class Transaction {

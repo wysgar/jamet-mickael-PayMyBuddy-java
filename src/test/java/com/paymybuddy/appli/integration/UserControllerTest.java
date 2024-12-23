@@ -1,6 +1,5 @@
 package com.paymybuddy.appli.integration;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -134,8 +133,8 @@ public class UserControllerTest {
                 .param("username", "updatedUser")
                 .param("email", "test@example.com")
                 .param("password", "newpassword"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("profil.html"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profil"));
 
         DBUser updatedUser = userRepository.findByEmail("test@example.com");
         assert updatedUser != null;
@@ -165,39 +164,4 @@ public class UserControllerTest {
         assert updatedUser.getConnections().size() == 1;
         assert "relation@example.com".equals(updatedUser.getConnections().get(0).getEmail());
     }
-    
-//    @Test
-//    @Transactional
-//    @WithMockUser(username = "test@example.com")
-//    public void testCreateRelationNotFound() throws Exception {
-//        mockMvc.perform(post("/relation")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("email", "doesntexist@example.com"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(containsString("Relation not found.")));
-//    }
-//    
-//    @Test
-//    @Transactional
-//    @WithMockUser(username = "test@example.com")
-//    public void testCreateRelationWithSelf() throws Exception {
-//        mockMvc.perform(post("/relation")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("email", "test@example.com"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(containsString("Relation with self.")));
-//    }
-//    
-//    @Test
-//    @Transactional
-//    @WithMockUser(username = "test@example.com")
-//    public void testCreateRelationAlreadyExist() throws Exception {
-//    	//testCreateRelation();
-//    	
-//        mockMvc.perform(post("/relation")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("email", "relation@example.com"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string(containsString("This connection already exists.")));
-//    }
 }

@@ -1,14 +1,11 @@
 package com.paymybuddy.appli.unitaire;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertLinesMatch;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -17,15 +14,11 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.paymybuddy.appli.model.DBUser;
 import com.paymybuddy.appli.repository.UserRepository;
@@ -38,9 +31,7 @@ public class UserServiceTest {
 	private UserService userService;
 	@MockBean
 	private UserRepository userRepository;
-//	@MockBean
-//    private PasswordEncoder passwordEncoder;
-	//private List<DBUser> users;
+	
 	private DBUser user;
 	
 	@BeforeEach
@@ -96,13 +87,26 @@ public class UserServiceTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.register(user);
         });
-        assertEquals("Un utilisateur avec cet email existe déjà.", exception.getMessage());
+        assertEquals("User with this email already exists.", exception.getMessage());
         verify(userRepository, times(1)).findByEmail(user.getEmail());
+        verify(userRepository, never()).save(any(DBUser.class));
+    }
+    
+    @Test
+    public void testRegisterUser_EmailInvalid_ThrowsException() {
+    	DBUser user = new DBUser();
+    	user.setEmail("test@test");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.register(user);
+        });
+        assertEquals("Email invalid.", exception.getMessage());
+        verify(userRepository, never()).findByEmail(user.getEmail());
         verify(userRepository, never()).save(any(DBUser.class));
     }
 
     @Test
-    void updateProfil_ShouldThrowException_WhenEmailIsAlreadyTaken() {
+    public void updateProfil_ShouldThrowException_WhenEmailIsAlreadyTaken() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("current@example.com");
 
@@ -119,15 +123,31 @@ public class UserServiceTest {
         when(userRepository.findByEmail("current@example.com")).thenReturn(existingUser);
         when(userRepository.findByEmail("taken@example.com")).thenReturn(anotherUser);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.updateProfil(userDetails, updateUser);
         });
-
+        assertEquals("User with this email already exists.", exception.getMessage());
         verify(userRepository, never()).save(existingUser);
     }
     
     @Test
-    void updateProfil_ShouldUpdateEmail_WhenEmailIsValid() {
+    public void updateProfil_ShouldThrowException_WhenEmailIsInvalid() {
+        UserDetails userDetails = mock(UserDetails.class);
+        when(userDetails.getUsername()).thenReturn("current@example.com");
+
+        DBUser user = new DBUser();
+        user.setEmail("test@test");
+        user.setUsername("currentUser");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.updateProfil(userDetails, user);
+        });
+        assertEquals("Email invalid.", exception.getMessage());
+        verify(userRepository, never()).save(any());
+    }
+    
+    @Test
+    public void updateProfil_ShouldUpdateEmail_WhenEmailIsValid() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("current@example.com");
 
@@ -149,30 +169,8 @@ public class UserServiceTest {
         verify(userRepository).save(existingUser);
     }
 
-//    @Test
-//    void updateProfil_ShouldUpdatePassword_WhenPasswordIsProvided() {
-//        UserDetails userDetails = mock(UserDetails.class);
-//        when(userDetails.getUsername()).thenReturn("user@example.com");
-//
-//        DBUser existingUser = new DBUser();
-//        existingUser.setEmail("user@example.com");
-//        existingUser.setPassword("oldPassword");
-//
-//        DBUser updateUser = new DBUser();
-//        updateUser.setPassword("newPassword");
-//
-//        when(userRepository.findByEmail("user@example.com")).thenReturn(existingUser);
-//        when(userRepository.save(existingUser)).thenReturn(existingUser);
-//
-//        DBUser result = userService.updateProfil(userDetails, updateUser);
-//        
-//        assertNotEquals(existingUser.getPassword(), result.getPassword());
-//        verify(passwordEncoder).encode("newPassword");
-//        verify(userRepository).save(existingUser);
-//    }
-
     @Test
-    void updateProfil_ShouldNotUpdatePassword_WhenPasswordIsEmpty() {
+    public void updateProfil_ShouldNotUpdatePassword_WhenPasswordIsEmpty() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("current@example.com");
 
@@ -181,6 +179,7 @@ public class UserServiceTest {
         existingUser.setPassword("oldPassword");
 
         DBUser updateUser = new DBUser();
+        updateUser.setEmail("current@example.com");
         updateUser.setPassword("");
 
         when(userRepository.findByEmail("current@example.com")).thenReturn(existingUser);
@@ -189,12 +188,11 @@ public class UserServiceTest {
         DBUser result = userService.updateProfil(userDetails, updateUser);
 
         assertEquals("oldPassword", result.getPassword());
-        //verify(passwordEncoder, never()).encode(anyString());
         verify(userRepository).save(existingUser);
     }
 
     @Test
-    void updateProfil_ShouldUpdateUsername_WhenUsernameIsProvided() {
+    public void updateProfil_ShouldUpdateUsername_WhenUsernameIsProvided() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("current@example.com");
 
@@ -203,6 +201,7 @@ public class UserServiceTest {
         existingUser.setUsername("currentUser");
 
         DBUser updateUser = new DBUser();
+        updateUser.setEmail("current@example.com");
         updateUser.setUsername("newUsername");
         updateUser.setPassword("");
 
@@ -216,7 +215,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getProfil_ShouldReturnUser_WhenEmailExists() {
+    public void getProfil_ShouldReturnUser_WhenEmailExists() {
         String email = "user@example.com";
         DBUser existingUser = new DBUser();
         existingUser.setEmail(email);
@@ -229,7 +228,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getProfil_ShouldReturnNull_WhenEmailDoesNotExist() {
+    public void getProfil_ShouldReturnNull_WhenEmailDoesNotExist() {
         String email = "nonexistent@example.com";
 
         when(userRepository.findByEmail(email)).thenReturn(null);
@@ -240,7 +239,7 @@ public class UserServiceTest {
     }
     
     @Test
-    void createRelation_ShouldCreateRelation_WhenValid() {
+    public void createRelation_ShouldCreateRelation_WhenValid() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("user@example.com");
 
@@ -261,7 +260,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void createRelation_ShouldThrowException_WhenRelationNotFound() {
+    public void createRelation_ShouldThrowException_WhenRelationNotFound() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("user@example.com");
 
@@ -280,7 +279,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void createRelation_ShouldThrowException_WhenRelationWithSelf() {
+    public void createRelation_ShouldThrowException_WhenRelationWithSelf() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("user@example.com");
 
@@ -298,7 +297,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void createRelation_ShouldThrowException_WhenRelationAlreadyExists() {
+    public void createRelation_ShouldThrowException_WhenRelationAlreadyExists() {
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("user@example.com");
 
@@ -321,4 +320,19 @@ public class UserServiceTest {
         verify(userRepository, never()).save(user);
     }
 
+    @SuppressWarnings("static-access")
+	@Test
+    public void isValidEmailTestIfNull() {
+    	boolean validEmail = userService.isValidEmail(null);
+    	
+    	assertEquals(false, validEmail);
+    }
+    
+    @SuppressWarnings("static-access")
+	@Test
+    public void isValidEmailTestIfEmpty() {
+    	boolean validEmail = userService.isValidEmail("");
+    	
+    	assertEquals(false, validEmail);
+    }
 }

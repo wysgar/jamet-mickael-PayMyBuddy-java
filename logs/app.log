@@ -1,0 +1,35 @@
+2024-12-20T09:41:24.655+01:00  INFO 24200 --- [appli] [main] com.paymybuddy.appli.AppliApplication    : Starting AppliApplication using Java 17.0.12 with PID 24200 (C:\Users\Mickaël\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\appli\target\classes started by Mickael in C:\Users\Mickaël\Documents\workspace-spring-tool-suite-4-4.24.0.RELEASE\appli)
+2024-12-20T09:41:24.660+01:00  INFO 24200 --- [appli] [main] com.paymybuddy.appli.AppliApplication    : No active profile set, falling back to 1 default profile: "default"
+2024-12-20T09:41:25.311+01:00  INFO 24200 --- [appli] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-20T09:41:25.372+01:00  INFO 24200 --- [appli] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 2 JPA repository interfaces.
+2024-12-20T09:41:25.844+01:00  INFO 24200 --- [appli] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-12-20T09:41:25.857+01:00  INFO 24200 --- [appli] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-20T09:41:25.857+01:00  INFO 24200 --- [appli] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2024-12-20T09:41:25.928+01:00  INFO 24200 --- [appli] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-20T09:41:25.928+01:00  INFO 24200 --- [appli] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1203 ms
+2024-12-20T09:41:26.062+01:00  INFO 24200 --- [appli] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-20T09:41:26.310+01:00  INFO 24200 --- [appli] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6b4a4e40
+2024-12-20T09:41:26.313+01:00  INFO 24200 --- [appli] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-20T09:41:26.354+01:00  INFO 24200 --- [appli] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-20T09:41:26.405+01:00  INFO 24200 --- [appli] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-20T09:41:26.441+01:00  INFO 24200 --- [appli] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-20T09:41:26.764+01:00  INFO 24200 --- [appli] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-20T09:41:28.133+01:00  INFO 24200 --- [appli] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-20T09:41:28.137+01:00  INFO 24200 --- [appli] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T09:41:28.672+01:00  WARN 24200 --- [appli] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-20T09:41:28.701+01:00  INFO 24200 --- [appli] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2024-12-20T09:41:29.297+01:00  INFO 24200 --- [appli] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-12-20T09:41:29.309+01:00  INFO 24200 --- [appli] [main] com.paymybuddy.appli.AppliApplication    : Started AppliApplication in 5.093 seconds (process running for 5.876)
+2024-12-20T09:41:56.867+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-20T09:41:56.867+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-20T09:41:56.868+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-12-20T09:41:56.968+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-2] UserController                           : Rendering login page
+2024-12-20T09:42:01.192+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-4] c.paymybuddy.appli.service.UserService   : Attempting to load user by email: dbuser@gmail.com
+2024-12-20T09:42:01.361+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-4] c.paymybuddy.appli.service.UserService   : User loaded successfully: dbuser@gmail.com
+2024-12-20T09:42:01.438+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-5] UserController                           : Fetching profile for user: dbuser@gmail.com
+2024-12-20T09:42:01.438+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-5] c.paymybuddy.appli.service.UserService   : Fetching profile for email: dbuser@gmail.com
+2024-12-20T09:42:01.441+01:00  INFO 24200 --- [appli] [http-nio-8080-exec-5] UserController                           : Profile loaded successfully for user: dbuser@gmail.com
+2024-12-20T09:43:53.040+01:00  INFO 24200 --- [appli] [RMI TCP Connection(11)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-12-20T09:43:53.096+01:00  INFO 24200 --- [appli] [RMI TCP Connection(11)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-20T09:43:53.098+01:00  INFO 24200 --- [appli] [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-20T09:43:53.105+01:00  INFO 24200 --- [appli] [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
