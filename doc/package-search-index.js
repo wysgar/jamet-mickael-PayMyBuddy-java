@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.paymybuddy.appli.model.DTO"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.paymybuddy.appli"},{"l":"com.paymybuddy.appli.configuration"},{"l":"com.paymybuddy.appli.controller"},{"l":"com.paymybuddy.appli.integration"},{"l":"com.paymybuddy.appli.model"},{"l":"com.paymybuddy.appli.model.DTO"},{"l":"com.paymybuddy.appli.repository"},{"l":"com.paymybuddy.appli.service"},{"l":"com.paymybuddy.appli.unitaire"}];updateSearchResults();

@@ -1,1 +1,9 @@
+com.paymybuddy.appli
+com.paymybuddy.appli.configuration
+com.paymybuddy.appli.controller
+com.paymybuddy.appli.integration
+com.paymybuddy.appli.model
 com.paymybuddy.appli.model.DTO
+com.paymybuddy.appli.repository
+com.paymybuddy.appli.service
+com.paymybuddy.appli.unitaire
