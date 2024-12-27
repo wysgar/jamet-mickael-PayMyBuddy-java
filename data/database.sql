@@ -80,4 +80,4 @@ insert into user (username, email, password) values ('test', 'test@gmail.com' , 
 
 insert into user_connections (user_id, user_to) values (1, 2);
 
-insert into transaction (transaction_id, description, amount, sender_id, receiver_id) values (1, test, 10, 1, 2);
+insert into transaction (transaction_id, description, amount, sender_id, receiver_id) values (1, "test", 10, 1, 2);

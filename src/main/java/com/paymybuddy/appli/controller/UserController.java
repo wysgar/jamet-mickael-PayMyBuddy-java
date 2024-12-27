@@ -129,17 +129,17 @@ public class UserController {
 		try {
 			userService.updateProfil(userDetails, user);
 			redirectAttributes.addFlashAttribute("error", "Updated");
+			
+			UserDetails updatedUserDetails = userService.loadUserByUsername(user.getEmail());
+			Authentication authentication = new UsernamePasswordAuthenticationToken(
+					updatedUserDetails, 
+					updatedUserDetails.getPassword(), 
+					updatedUserDetails.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", e.getLocalizedMessage());
 			e.printStackTrace();
 		}
-		
-		UserDetails updatedUserDetails = userService.loadUserByUsername(user.getEmail());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(
-				updatedUserDetails, 
-				updatedUserDetails.getPassword(), 
-				updatedUserDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		logger.info("Profile updated successfully for user: {}", userDetails.getUsername());
         

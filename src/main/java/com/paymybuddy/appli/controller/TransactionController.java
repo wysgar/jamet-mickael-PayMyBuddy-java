@@ -3,8 +3,8 @@ package com.paymybuddy.appli.controller;
 import com.paymybuddy.appli.model.DBUser;
 import com.paymybuddy.appli.model.Transaction;
 import com.paymybuddy.appli.model.DTO.TransactionDTO;
-import com.paymybuddy.appli.repository.UserRepository;
 import com.paymybuddy.appli.service.TransactionService;
+import com.paymybuddy.appli.service.UserService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	/**
      * Displays the transactions page for the authenticated user.
@@ -50,7 +50,7 @@ public class TransactionController {
 	public String getTransaction(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		logger.info("Fetching transactions for user: {}", userDetails.getUsername());
 		
-		DBUser byEmail = userRepository.findByEmail(userDetails.getUsername());
+		DBUser byEmail = userService.findByEmail(userDetails.getUsername());
 		model.addAttribute("relations", byEmail.getConnections());
 		model.addAttribute("transactions", byEmail.getSentTransactions());
 		model.addAttribute("transactionDTO", new TransactionDTO());

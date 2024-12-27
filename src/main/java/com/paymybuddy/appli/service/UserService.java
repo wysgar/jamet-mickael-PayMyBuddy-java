@@ -184,4 +184,14 @@ public class UserService implements UserDetailsService {
 
         return email.matches(emailRegex);
     }
+
+	/**
+	 * Find a user with a email.
+	 *
+	 * @param email address
+	 * @return a user
+	 */
+	public DBUser findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 }
